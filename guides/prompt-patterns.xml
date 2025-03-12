@@ -1,0 +1,1436 @@
+# Development Workflow Prompt Patterns
+
+Table of Contents
+
+1. **Generate Boilerplate / Skeleton Code**
+2. **Refactoring Existing Code**
+3. **Debugging & Error Resolution**
+4. **Explanations & Documentation**
+5. **Feature Implementation / API Routes**
+6. **Integration & Configuration**
+7. **Testing & Quality Assurance**
+8. **Data Modeling & Database**
+9. **Code Reviews & Best Practices**
+10. **Performance Optimization**
+11. **Architecture & Design Patterns**
+12. **Regex, Scripts, & Utility Functions**
+13. **Research & Learning**
+14. **Front-End UI/UX**
+15. **CLI & Tooling**
+16. **Prompt Tips & Best Practices** (General Guidance)
+
+## 1. Generate Boilerplate / Skeleton Code
+
+### What It Is
+
+A technique for quickly creating the foundational files or scaffolding for your application (e.g., a new Next.js API route, React component, or Prisma model) so you don’t have to start from scratch.
+
+### Use Cases
+
+- Creating new components
+- Setting up new features
+- Implementing common patterns
+- Starting new modules
+- Creating test files
+
+### When to Use It
+
+- At the **start** of a feature or module, when you need consistent folder/file structure.
+- When a **team standard** or **common pattern** is required (e.g., every route has standard CRUD).
+- Any time you want to **save effort** on repeated setup tasks.
+
+**Why Use It:** Quickly scaffold new files, components, or pages so you can focus on logic rather than boilerplate.
+
+### Prompt Pattern
+
+> “Cursor, create a [file type] for [purpose] in [location] using [framework/library] with [requirements].”
+>
+
+### Example
+
+> “Cursor, create a new Next.js API route in app/api/projects/route.ts that handles CRUD operations for projects using Prisma and Supabase.”
+>
+
+**What to Expect:**
+
+- A minimal or skeleton file with placeholders.
+- Basic TypeScript interfaces and error handling.
+
+### Boilerplate Code Pattern - XML
+
+```xml
+<request>
+  <type>boilerplate_generation</type>
+  <template_type>
+    - Component
+    - Service
+    - Hook
+    - Context
+    - Test
+  </template_type>
+  <specifications>
+    - Framework requirements
+    - Styling approach
+    - State management
+    - Error handling
+  </specifications>
+  <conventions>
+    - Naming conventions
+    - File structure
+    - Code style
+    - Documentation requirements
+  </conventions>
+</request>
+```
+
+---
+
+## 2. Refactoring Existing Code
+
+### What It Is
+
+The process of restructuring code to improve its **readability**, **maintainability**, or **performance** without changing its external behavior.
+
+### Use Cases
+
+- Modernizing legacy code
+- Improving performance
+- Applying new design patterns
+- Reducing code complexity
+- Converting to TypeScript
+
+### When to Use It
+
+- **Before** adding new features to old or messy code (cleaning up the foundation).
+- **After** discovering repeated logic, poor variable naming, or large functions that hamper understanding.
+- **Regularly** as part of code reviews or technical debt cleanup.
+
+**Why Use It:** Improve readability, organization, or performance of existing code without changing its functionality.
+
+## Prompt Pattern
+
+> “Cursor, refactor this [function/component/file] to [objective] while maintaining the same functionality. Provide [extra criteria] if needed.”
+>
+
+### Example
+
+> “Cursor, refactor this useCreateProject React Hook to use async/await instead of promise chains, and ensure it handles Supabase errors gracefully.”
+>
+
+**What to Expect:**
+
+- The assistant reorganizes or streamlines the code.
+- Potentially improved naming, structure, or reduced complexity.
+- Always review changes carefully—AI may alter logic inadvertently.
+
+### Refactoring Code Pattern - XML
+
+**when to use:**
+
+-
+
+```xml
+<request>
+  <type>code_refactor</type>
+  <current_code>
+    [Insert existing code here]
+  </current_code>
+  <objectives>
+    - List specific refactoring goals
+    - Performance requirements
+    - New patterns to apply
+    - Maintainability goals
+  </objectives>
+  <constraints>
+    - Must maintain existing functionality
+    - Backward compatibility requirements
+    - Performance requirements
+  </constraints>
+  <additional_context>
+    - Framework version
+    - Dependencies
+    - Business rules
+  </additional_context>
+</request>
+```
+
+---
+
+## 3. Debugging & Error Resolution
+
+- **What It Is**
+
+A pattern in which you show the AI your **error logs, stack traces, or broken code** and ask for a probable fix or direction to a solution.
+
+- **Use Cases**
+
+- Debugging TypeScript compiler errors in Next.js application
+- Fixing Supabase real-time subscription connection errors
+- Resolving API route 500 errors
+- Resolving database connection timeouts
+- Fixing race conditions in async operations
+
+- Resolving React hook dependency issues
+- Troubleshooting authentication flow failures
+- Debugging build-time errors in Vercel deployment
+- Fixing state management inconsistencies
+- Debugging WebSocket connection issues
+
+**When to Use It**
+
+- In **urgent situations** (production bugs) to quickly hypothesize root causes.
+- During **local development** if you’re stuck on a confusing error.
+- When you’ve already tried typical fixes (like `console.log`) but need a fresh perspective.
+
+**Why Use It:** When you face error messages or exceptions you can’t immediately solve, the AI can hypothesize solutions.
+
+### Prompt Pattern
+
+> “Cursor, here is my error message/log: [...]. My code looks like this:
+>
+>
+> ```
+> // code snippet
+> 
+> ```
+>
+> Please **diagnose the issue** and propose a **fix**.”
+>
+
+### Example
+
+> “Cursor, I’m getting a TypeError: Cannot read properties of undefined (reading 'filter') in my Next.js page. Here’s the snippet. Help me fix it and explain the root cause.”
+>
+
+**What to Expect:**
+
+- A potential fix or a set of debugging steps.
+- The AI might ask for more context if needed.
+
+### Bug Fix Pattern - XML
+
+```xml
+<request>
+  <type>bug_fix</type>
+  <issue>
+    Detailed description of the bug
+    Steps to reproduce
+    Expected vs actual behavior
+  </issue>
+  <code_context>
+    Relevant code snippets
+  </code_context>
+  <requirements>
+    - Must maintain existing interfaces
+    - Consider backwards compatibility
+    - Include tests
+  </requirements>
+</request>
+```
+
+### Error Resolution Pattern - XML
+
+```xml
+<request>
+  <type>error_resolution</type>
+  <error_context>
+    - Error message/stack trace
+    - Code snippet where error occurs
+    - Environment details
+    - Recent code changes
+  </error_context>
+  <reproduction>
+    - Steps to reproduce
+    - Expected behavior
+    - Actual behavior
+    - Related dependencies
+  </reproduction>
+  <troubleshooting>
+    - Already attempted fixes
+    - Current debugging info
+    - Relevant logs
+    - Environment variables
+  </troubleshooting>
+  <requirements>
+    - Urgency level
+    - Performance constraints
+    - Compatibility needs
+    - Production/development context
+  </requirements>
+</request>
+```
+
+---
+
+## 4. Explanations & Documentation
+
+**What It Is**
+
+Using AI to **clarify** or **document** how your code operates, often generating inline comments, docstrings, or human-readable explanations.
+
+**Use Cases**
+
+- Documenting complex React hooks
+- Documenting database query optimizations
+- Documenting state management patterns
+- Documenting API integration patterns
+- Explaining caching strategies
+
+- Explaining custom middleware implementation
+- Explaining authentication flow logic
+- Explaining complex data transformations
+- Explaining complex UI component logic
+- Documenting error handling patterns
+
+**When to Use It**
+
+- When **onboarding** new team members or introducing a new library/pattern.
+- After you’ve merged code but realized you lack **adequate doc comments** or clarity.
+- Any time your code needs more **context** and **self-documentation**.
+
+**Why Use It:** You can ask the AI to explain complex code or generate docstrings for maintainability.
+
+### Prompt Pattern
+
+> “Cursor, explain how this code works in plain English. Then generate docstrings that describe the parameters, return types, and usage.”
+>
+
+### Example
+
+> “Cursor, explain the following function that retrieves daily reports from Supabase, and add a JSDoc comment detailing its input/output.”
+>
+
+**What to Expect:**
+
+- Human-friendly explanations.
+- Auto-generated docstrings or comments.
+
+### Documentation Pattern - XML
+
+```xml
+<request>
+  <type>documentation</type>
+  <subject>
+    Code or feature to document
+  </subject>
+  <audience>
+    Target audience for documentation
+  </audience>
+  <requirements>
+    - Documentation type
+    - Format specifications
+    - Required sections
+  </requirements>
+  <output_format>
+    - Documentation structure
+    - Content
+    - Examples
+  </output_format>
+</request>
+```
+
+### Code Explanation Pattern - XML
+
+```xml
+<request>
+  <type>code_explanation</type>
+  <code_context>
+    - Code snippet
+    - Function/component purpose
+    - Related dependencies
+    - Current documentation
+  </code_context>
+  <documentation_needs>
+    - Documentation style (JSDoc/TSDoc)
+    - Required sections
+    - Examples needed
+    - Audience level
+  </documentation_needs>
+  <explanation_requirements>
+    - Technical depth
+    - Focus areas
+    - Use cases
+    - Edge cases
+  </explanation_requirements>
+  <output_format>
+    - Inline comments
+    - Function documentation
+    - Usage examples
+    - Implementation notes
+  </output_format>
+</request>
+```
+
+---
+
+## 5. Feature Implementation / API Routes
+
+**What It Is**
+
+A pattern in which the AI creates **new features** (e.g., a Stripe payment flow or a GPT-powered endpoint) by scaffolding the necessary server/client logic.
+
+**Use Cases**
+
+- Creating new API routes
+- Implementing REST endpoints
+- Setting up API handlers
+- Adding route validation
+- Implementing middleware
+
+**When to Use It**
+
+- **Starting** a fresh feature or endpoint that relies on well-defined requirements.
+- **Expanding** existing functionality with additional routes (e.g., hooking up Slack notifications or new database calls).
+- If you want to **accelerate** the boilerplate for a typical CRUD or specialized route.
+
+**Why Use It:** Quickly build new features, focusing on how data flows from client to server.
+
+### Prompt Pattern
+
+> “Cursor, implement a [feature] that does [action] with [data source/API]. Use [technologies/libraries] and ensure [requirements/conditions].”
+>
+
+### Example
+
+> “Cursor, implement a new app/api/payments/route.ts for handling Stripe webhooks. It should verify the signature, parse the event, and update the user’s subscription status in Supabase using Prisma.”
+>
+
+**What to Expect:**
+
+- An initial workable code snippet or function.
+- Possibly includes error handling or typical best practices.
+
+### Feature Implementation Pattern - XML
+
+```xml
+<request>
+  <type>feature_implementation</type>
+  <language>{programming_language}</language>
+  <framework>{framework_name}</framework>
+  <description>
+    Detailed feature description including requirements and constraints
+  </description>
+  <expected_output>
+    - File structure
+    - Implementation details
+    - Test coverage
+    - Documentation
+  </expected_output>
+  <context>
+    Relevant existing code or system architecture
+  </context>
+</request>
+```
+
+### API Route Endpoints Pattern - XML
+
+```xml
+<request>
+  <type>api_endpoint</type>
+  <endpoint_details>
+    - Route path
+    - HTTP methods
+    - Request/response format
+    - Authentication requirements
+  </endpoint_details>
+  <validation>
+    - Input validation rules
+    - Type checking
+    - Error handling
+    - Rate limiting
+  </validation>
+  <security>
+    - Authentication method
+    - Authorization rules
+    - Data sanitization
+    - Security headers
+  </security>
+</request>
+```
+
+---
+
+## 6. Integration & Configuration
+
+**What It Is**
+
+A method for setting up external services or tooling (like Sentry, Stripe webhooks, Tailwind config) through step-by-step prompts that detail config files and environment variables.
+
+**Use Cases**
+
+- Creating new TypeScript files
+- Converting JavaScript to TypeScript
+- Defining interfaces and types
+- Creating type utilities
+- Setting up configuration files
+
+**When to Use It**
+
+- When **adding** a new service (e.g., connecting your app to a new third-party).
+- Any time you’re dealing with **complex configuration** that has a multi-step setup (plugins, env variables, build scripts).
+- To **verify** that your environment aligns with best practices.
+
+**Why Use It:** Set up packages (Stripe, Supabase, Sentry, etc.) or configure build tools.
+
+### Prompt Pattern
+
+> “Cursor, configure [package/tool] in [environment/framework] to [goal/use case]. Provide step-by-step instructions and code snippets where necessary.”
+>
+
+### Example
+
+> “Cursor, configure Sentry in a Next.js 14 app so that both server and client errors are tracked. Show how to initialize it in the app/layout.tsx and next.config.js.”
+>
+
+**What to Expect:**
+
+- Step-by-step instructions, plus a possible config snippet.
+- Potential best practices or environment variable tips.
+
+### Integration Pattern - XML
+
+```xml
+<request>
+  <type>integration</type>
+  <systems>
+    Systems to integrate
+  </systems>
+  <requirements>
+    - Integration points
+    - Data flow
+    - Error handling
+  </requirements>
+  <output_format>
+    - Integration design
+    - Implementation steps
+    - Testing strategy
+  </output_format>
+</request>
+```
+
+### Configuration Setup Pattern - XML
+
+**Use Cases**
+
+- Setting up Supabase client configuration
+- Setting up CI/CD pipelines
+- Configuring build optimizations
+- Setting up environment variables
+- Configuring development tools
+
+- Configuring authentication providers
+- Setting up testing frameworks
+- Configuring monitoring tools
+- Setting up logging services
+- Configuring caching strategies
+
+```xml
+<request>
+  <type>configuration_setup</type>
+  <service_details>
+    - Service name
+    - Integration purpose
+    - Environment type
+    - Framework details
+  </service_details>
+  <setup_requirements>
+    - Configuration files
+    - Environment variables
+    - Initialization code
+    - Build settings
+  </setup_requirements>
+  <security>
+    - API keys handling
+    - Secret management
+    - Access control
+    - Environment isolation
+  </security>
+  <verification>
+    - Test steps
+    - Validation checks
+    - Health checks
+    - Monitoring setup
+  </verification>
+</request>
+```
+
+### TypeScript File Pattern - XML
+
+```xml
+<request>
+  <type>typescript_file</type>
+  <file_purpose>
+    - Interface definitions
+    - Type declarations
+    - Utility functions
+    - Component file
+    - Configuration
+  </file_purpose>
+  <requirements>
+    - Type strictness level
+    - Generic requirements
+    - Interface complexity
+    - Export patterns
+  </requirements>
+  <standards>
+    - Naming conventions
+    - Documentation format
+    - Type organization
+    - Import structure
+  </standards>
+</request>
+```
+
+---
+
+## 7. Testing & Quality Assurance
+
+**What It Is**
+
+Prompts that help create or refine **test suites**, whether **unit tests**, **integration tests**, or **end-to-end tests**, ensuring your code remains stable and bug-free.
+
+**Use Cases**
+
+- Writing tests
+- Setting up QA processes
+- Implementing CI checks
+- Code review guidelines
+- Performance testing
+
+**When to Use It**
+
+- **Before** deploying new features—test coverage gives confidence in your release.
+- **During** development, if you follow TDD (Test-Driven Development).
+- **When** a bug is fixed, writing or modifying tests to verify no regression.
+
+**Why Use It:** Generate test files, integration tests, or end-to-end tests to ensure stable features.
+
+### Prompt Pattern
+
+> “Cursor, create [test type] for [function/component/route] that checks [conditions/assertions] using [framework].”
+>
+
+### Example
+
+> “Cursor, create Jest unit tests for the useProjects() hook, ensuring it handles loading, error, and success states with TanStack Query.”
+>
+
+**What to Expect:**
+
+- A test file with placeholders for each scenario.
+- Basic usage of a testing library (Jest, Vitest, Cypress, etc.).
+
+### Testing Pattern - XML
+
+```xml
+<request>
+  <type>testing</type>
+  <test_scope>
+    Component or feature to test
+  </test_scope>
+  <requirements>
+    - Test coverage goals
+    - Types of tests needed
+    - Edge cases to consider
+  </requirements>
+  <output_format>
+    - Test cases
+    - Implementation
+    - Coverage report
+  </output_format>
+</request>
+```
+
+### Quality Assurance Pattern - XML
+
+```xml
+<request>
+  <type>quality_assurance</type>
+  <test_requirements>
+    - Test types needed
+    - Coverage requirements
+    - Performance criteria
+    - Edge cases
+  </test_requirements>
+  <validation_rules>
+    - Code standards
+    - Quality metrics
+    - Performance benchmarks
+    - Security requirements
+  </validation_rules>
+  <automation>
+    - CI/CD integration
+    - Automated checks
+    - Monitoring setup
+    - Alert configuration
+  </automation>
+</request>
+```
+
+---
+
+## 8. Data Modeling & Database
+
+**What It Is**
+
+A pattern in which you define or modify **Prisma models**, run migrations, or craft queries to manipulate data. The AI helps outline schemas or sample queries.
+
+**Use Cases**
+
+- Database design
+- Schema creation
+- Data relationships
+- Migration planning
+- Performance optimization
+
+**When to Use It**
+
+- **Initially** designing or **migrating** your database schema (e.g., adding a new table for daily reports).
+- **Refining** existing relations or adding indexes for performance.
+- **Performing** tricky queries or ensuring correct relational constraints.
+
+**Why Use It:** Define or modify schema in **Prisma** and run queries on Supabase.
+
+### Prompt Pattern
+
+> “Cursor, update my schema.prisma to add a [model/field/relationship]. Then write example queries in Prisma to handle [CRUD scenarios].”
+>
+
+### Example
+
+> “Cursor, add a DailyReport model to my schema.prisma with fields for id, projectId, date, content, createdAt, updatedAt. Then show me how to insert and fetch these daily reports via Prisma.”
+>
+
+**What to Expect:**
+
+- Updated schema code.
+- CRUD examples using Prisma’s TypeScript client.
+
+### Data Modeling Pattern - XML
+
+```xml
+<request>
+  <type>data_model</type>
+  <requirements>
+    - Entity definitions
+    - Relationships
+    - Constraints
+    - Indexing needs
+  </requirements>
+  <optimization>
+    - Query patterns
+    - Access patterns
+    - Performance needs
+    - Scaling requirements
+  </optimization>
+  <migration>
+    - Transition strategy
+    - Data preservation
+    - Rollback plan
+    - Version control
+  </migration>
+</request>
+```
+
+### Supabase Database Pattern - XML
+
+**Use Cases**
+
+- Setting up Supabase tables
+- Implementing RLS policies
+- Creating database functions
+- Setting up real-time
+- Managing migrations
+
+```xml
+<request>
+  <type>supabase_implementation</type>
+  <database_features>
+    - Table definitions
+    - RLS policies
+    - Functions/procedures
+    - Real-time config
+  </database_features>
+  <security>
+    - Access policies
+    - Role definitions
+    - Permission sets
+    - Authentication rules
+  </security>
+  <optimization>
+    - Index definitions
+    - Query optimization
+    - Cache strategy
+    - Performance tuning
+  </optimization>
+</request>
+```
+
+---
+
+## 9. Code Reviews & Best Practices
+
+**What It Is**
+
+An approach to have the AI **critically assess** your code for style, maintainability, or potential pitfalls, pointing out improvements or best practices.
+
+**Use Cases**
+
+- Making code commits
+- Preparing pull requests
+- Documenting changes
+- Release preparation
+- Hotfix commits
+
+**When to Use It**
+
+- **Before** opening or merging a pull request, to catch overlooked issues.
+- **When** you suspect code smells or anticipate a performance bottleneck.
+- **During** times when your team is busy and you want an automated “second pair of eyes.”
+
+**Why Use It:** You can have AI do a preliminary code review before merging.
+
+### Prompt Pattern
+
+> “Cursor, review the following pull request/code snippet for [performance/security/readability]. Suggest [improvements/best practices].”
+>
+
+### Example
+
+> “Cursor, review this Next.js route for handling user authentication. Do we have any vulnerabilities or inefficiencies? Provide suggestions.”
+>
+
+**What to Expect:**
+
+- Comments on potential improvements.
+- The AI may highlight best practices or known pitfalls.
+
+### Code Review Pattern - XML
+
+```xml
+<request>
+  <type>code_review</type>
+  <code>
+    Code to be reviewed
+  </code>
+  <focus_areas>
+    - Performance
+    - Security
+    - Best practices
+    - Error handling
+  </focus_areas>
+  <output_format>
+    - Issues identified
+    - Suggested improvements
+    - Code examples
+  </output_format>
+</request>
+```
+
+### Best Practices Review Pattern - XML
+
+**Use Cases**
+
+- Reviewing API endpoint implementations
+- Reviewing database query performance
+- Evaluating state management patterns
+- Reviewing error handling strategies
+- Assessing code organization structure
+
+- Assessing authentication security measures
+- Reviewing component composition
+- Evaluating testing coverage
+- Reviewing accessibility implementation
+- Assessing performance optimizations
+
+```xml
+<request>
+  <type>best_practices_review</type>
+  <review_focus>
+    - Code quality
+    - Performance
+    - Security
+    - Maintainability
+  </review_focus>
+  <analysis_areas>
+    - Architecture patterns
+    - Code organization
+    - Error handling
+    - State management
+  </analysis_areas>
+  <improvement_criteria>
+    - Performance metrics
+    - Security standards
+    - Style guidelines
+    - Team conventions
+  </improvement_criteria>
+  <output_format>
+    - Actionable suggestions
+    - Code examples
+    - Priority levels
+    - Implementation steps
+  </output_format>
+</request>
+```
+
+### Commit Message Pattern - XML
+
+```xml
+<request>
+  <type>commit_message</type>
+  <changes>
+    - Files changed
+    - Change description
+    - Impact scope
+    - Breaking changes
+  </changes>
+  <convention>
+    - Commit type
+    - Scope
+    - Description format
+    - Footer information
+  </convention>
+  <references>
+    - Issue numbers
+    - PR references
+    - Related commits
+    - Documentation links
+  </references>
+</request>
+```
+
+---
+
+## 10. Performance Optimization
+
+**What It Is**
+
+Asking the AI to **identify** or **suggest** changes that speed up your application (e.g., SSR bottlenecks, large data fetches, or inefficient loops).
+
+**When to Use It**
+
+- **After** noticing slow page loads, high server response times, or user complaints about UI lag.
+- **Before** scaling your app to more users, ensuring your system is efficient.
+- **During** code reviews if you see nested loops, unoptimized queries, or heavy tasks.
+
+**Why Use It:** Identify slow queries, large bundle sizes, or inefficient loops.
+
+### Prompt Pattern
+
+> “Cursor, optimize the following [function/component/query]. Explain potential bottlenecks and show how to improve [performance aspect].”
+>
+
+### Example
+
+> “Cursor, this Next.js page with a large SSR data fetch is loading slowly. Optimize the code or caching strategy, and show me how to reduce load times.”
+>
+
+**What to Expect:**
+
+- Proposed code changes or architecture tweaks.
+- AI might suggest caching strategies, splitting large queries, or analyzing bundle size.
+
+### Performance Analysis Pattern - XML
+
+```xml
+<request>
+  <type>performance_analysis</type>
+  <target>
+    Code or system to analyze
+  </target>
+  <metrics>
+    - Performance indicators
+    - Benchmarks
+    - Resource usage
+  </metrics>
+  <output_format>
+    - Analysis results
+    - Optimization suggestions
+    - Implementation plan
+  </output_format>
+</request>
+```
+
+### Optimization Pattern - XML
+
+```xml
+<request>
+  <type>optimization</type>
+  <target>
+    Code or feature to optimize
+  </target>
+  <metrics>
+    - Performance goals
+    - Resource constraints
+    - Scalability requirements
+  </metrics>
+  <constraints>
+    - Must maintain functionality
+    - Backward compatibility requirements
+    - System limitations
+  </constraints>
+</request>
+```
+
+---
+
+## 11. Architecture & Design Patterns
+
+**What It Is**
+
+Prompts to plan or refactor your **overall application architecture** (e.g., layering your code, adopting microservices, or domain-driven design).
+
+**Use Cases**
+
+- Starting new projects
+- Adding new features
+- Organizing existing code
+- Setting up module structure
+- Creating feature folders
+
+**When to Use It**
+
+- **Early** in a project to establish a robust foundation.
+- **Mid-lifecycle** if your code has grown in complexity and you need a more **scalable** or **modular** structure.
+- **Post-MVP** when you’re aiming for enterprise readiness or reusability across teams.
+
+**Why Use It:** Plan or refactor larger pieces of your app, such as layering, domain models, or service patterns.
+
+### Prompt Pattern
+
+> “Cursor, suggest an architecture for a [type of feature/app] using [technologies] that handles [requirements]. Provide reasons and examples.”
+>
+
+### Example
+
+> “Cursor, propose an architecture for a real-time collaboration feature in Next.js with Supabase, focusing on concurrency, conflict resolution, and security.”
+>
+
+**What to Expect:**
+
+- High-level structure or references to popular patterns (e.g., microservices, domain-driven design).
+- Possibly code stubs or bullet points describing the approach.
+
+### Architecture Pattern - XML
+
+```xml
+<request>
+  <type>architecture</type>
+  <system_scope>
+    Overview of system requirements
+  </system_scope>
+  <requirements>
+    - Functional requirements
+    - Non-functional requirements
+    - Scalability needs
+    - Integration points
+  </requirements>
+  <output_format>
+    - System diagram
+    - Component breakdown
+    - Interface definitions
+    - Implementation plan
+  </output_format>
+</request>
+```
+
+### Design Patterns Architecture Pattern - XML
+
+**Use Cases**
+
+- Designing real-time collaboration features
+- Designing notification systems
+- Architecting multi-tenant systems
+- Designing caching strategies
+- Architecting authentication flows
+
+- Architecting file upload systems
+- Designing search functionality
+- Architecting payment systems
+- Designing analytics tracking
+- Architecting backup systems
+
+```xml
+<request>
+  <type>design_pattern</type>
+  <application_context>
+    - Project type
+    - Scale requirements
+    - Technical constraints
+    - Business requirements
+  </application_context>
+  <architecture_needs>
+    - Scalability requirements
+    - Maintenance considerations
+    - Performance goals
+    - Security requirements
+  </architecture_needs>
+  <implementation_details>
+    - Pattern selection
+    - Layer organization
+    - Component structure
+    - Communication flow
+  </implementation_details>
+  <deliverables>
+    - Architecture diagram
+    - Code structure
+    - Implementation guide
+    - Best practices
+  </deliverables>
+</request>
+```
+
+### File Structure Pattern - XML
+
+```xml
+<request>
+  <type>file_structure</type>
+  <project_type>
+    - Next.js application
+    - React library
+    - API service
+    - Full-stack application
+  </project_type>
+  <requirements>
+    - Project scale
+    - Feature organization
+    - Testing structure
+    - Documentation location
+  </requirements>
+  <conventions>
+    - Naming patterns
+    - Folder hierarchy
+    - Module organization
+    - Resource location
+  </conventions>
+</request>
+```
+
+---
+
+## 12. Regex, Scripts, & Utility Functions
+
+**What It Is**
+
+Requests to generate **one-off** or specialized code solutions (regular expressions, Node.js scripts, shell commands) that solve a targeted problem.
+
+**Use Cases**
+
+- Creating utility functions
+- Implementing regex patterns
+- Writing helper scripts
+- Data validation
+- Format conversion
+
+**When to Use It**
+
+- **Occasionally** for data migrations, quick fixes, or bulk data transformations.
+- **Any time** you face a complicated regex need (like advanced string parsing).
+- **Whenever** you want an automated approach to repetitive tasks (file rename scripts, CSV imports).
+
+**Why Use It:** Generate one-off scripts, utility functions, or complex regex patterns.
+
+### Prompt Pattern
+
+> “Cursor, create a [script/regex/utility function] that [goal/behavior]. Show me how to run/use it in [environment].”
+>
+
+### Example
+
+> “Cursor, create a Node.js script that reads CSV files, transforms rows, and imports them into my Supabase contacts table via the REST API.”
+>
+
+**What to Expect:**
+
+- A complete script or function you can run.
+- Potential pitfalls or performance suggestions.
+
+### Regex & Utilities Pattern - XML
+
+```xml
+<request>
+  <type>utility_development</type>
+  <utility_type>
+    - Regex pattern
+    - Helper function
+    - Data transformer
+    - Validation util
+  </utility_type>
+  <requirements>
+    - Input patterns
+    - Output format
+    - Edge cases
+    - Performance needs
+  </requirements>
+  <testing>
+    - Test cases
+    - Validation scenarios
+    - Performance metrics
+    - Error handling
+  </testing>
+</request>
+```
+
+---
+
+## 13. Research & Learning
+
+**What It Is**
+
+Using the AI as a knowledge resource to **summarize** documentation, compare libraries, or explain new frameworks or patterns.
+
+**Use Cases**
+
+- Learning new technologies
+- Solving complex problems
+- Exploring alternatives
+- Understanding patterns
+- Evaluating solutions
+
+**When to Use It**
+
+- **When** your team is evaluating new tech or deciding between multiple solutions.
+- **While** ramping up on an unfamiliar library or feature (like Supabase real-time or new Next.js features).
+- **Any time** official docs feel too dense or you want a condensed explanation.
+
+**Why Use It:** Gather info about tools, libraries, or patterns you’re not familiar with.
+
+### Prompt Pattern
+
+> “Cursor, research [topic] and explain how it applies to [my project]. Provide references or code samples if relevant.”
+>
+
+### Example
+
+> “Cursor, research Supabase real-time features and show me how to integrate them into a Next.js 14 application for live task updates.”
+>
+
+**What to Expect:**
+
+- Summaries of official documentation or tutorials.
+- Code examples relevant to your use case.
+- Use caution: always validate with official docs if critical.
+
+### Research & Learning Pattern - XML
+
+```xml
+<request>
+  <type>research_query</type>
+  <topic>
+    - Technology/concept
+    - Problem description
+    - Learning objectives
+    - Required depth
+  </topic>
+  <context>
+    - Current knowledge
+    - Application context
+    - Constraints
+    - Goals
+  </context>
+  <output_format>
+    - Understanding level
+    - Example needs
+    - Implementation details
+    - Reference materials
+  </output_format>
+</request>
+```
+
+---
+
+## 14. Front-End UI/UX
+
+**What It Is**
+
+Patterns that create or update **React components**, **CSS styling**, or other user interface elements, including layout design and interactive features.
+
+**Use Cases**
+
+- Component creation
+- Layout implementation
+- Styling solutions
+- Accessibility features
+- Responsive design
+
+**When to Use It**
+
+- **While** prototyping new pages or components that follow a consistent design system (Tailwind + shadcn/ui).
+- **When** you need new UI elements that match an existing style or brand.
+- **If** you want to ensure accessibility or responsiveness (e.g., mobile-first design).
+
+**Why Use It:** Create or refine UI components with Tailwind, shadcn/ui, or general React patterns.
+
+### Prompt Pattern
+
+> “Cursor, build a [component] in React using [UI library] with [design or state requirements].”
+>
+
+### Example
+
+> “Cursor, build a ProjectList component using shadcn/ui and Tailwind. Include a search bar, sorting, and a toggleable sidebar.”
+>
+
+**What to Expect:**
+
+- A React component with basic styling or layout.
+- Additional tips for user interaction or accessibility.
+
+### Frontend UI/UX Pattern - XML
+
+```xml
+<request>
+  <type>ui_implementation</type>
+  <component>
+    - Component type
+    - Design specifications
+    - Interaction patterns
+    - State management
+  </component>
+  <requirements>
+    - Accessibility needs
+    - Responsive behavior
+    - Animation specs
+    - Theme support
+  </requirements>
+  <standards>
+    - Design system
+    - Component library
+    - Style guidelines
+    - Best practices
+  </standards>
+</request>
+```
+
+---
+
+## 15. CLI & Tooling
+
+**What It Is**
+
+Prompting the AI to generate or modify **command-line scripts**, **Dockerfiles**, or other dev tooling configurations.
+
+Use Cases
+
+**When to Use It**
+
+- **When** you want a streamlined approach to building and deploying (e.g., Dockerizing your Next.js app).
+- **If** you need to unify your local dev environment with production (e.g., consistent Node versions, lint scripts).
+- **Whenever** you’re automating repetitive tasks or custom commands (e.g., a “bootstrap” script for new devs).
+
+**Why Use It:** If you need help with CLI commands, build configs, or specialized tools (e.g., Git, Docker, Nx, etc.).
+
+### Prompt Pattern
+
+> “Cursor, help me create a [Dockerfile/Git command/CLI script] that does [task] in [environment].”
+>
+
+### Example
+
+> “Cursor, create a Dockerfile for my Next.js 14 + Supabase project that includes dependencies, builds the app, and serves it on port 3000. Provide instructions on how to run it.”
+>
+
+**What to Expect:**
+
+- A working Dockerfile or CLI snippet.
+- Explanation of each command or flag.
+
+### CLI & Tooling Pattern - XML
+
+```xml
+<request>
+  <type>cli_tool</type>
+  <tool_purpose>
+    - Command functionality
+    - User interaction
+    - Input processing
+    - Output format
+  </tool_purpose>
+  <features>
+    - Command structure
+    - Options/flags
+    - Interactive modes
+    - Error handling
+  </features>
+  <implementation>
+    - Framework choice
+    - Dependencies
+    - Distribution method
+    - Documentation
+  </implementation>
+</request>
+```
+
+---
+
+## 16. Prompt Tips & Best Practices
+
+Here are some **general guidelines** for crafting effective prompts with an AI coding assistant:
+
+1. **Be Specific**
+    - Include the **file/folder** you want to modify, the **framework/library** in use, and the **exact functionality** you need.
+    - Example: “Use `Prisma` to interact with a `DailyReports` table for insertion, then return the inserted row.”
+2. **Provide Context**
+    - If you have existing code, **paste** the relevant snippet.
+    - Example: “Here’s my existing `route.ts` for tasks. Please update it to handle archived tasks as well.”
+3. **Use Step-by-Step Requests**
+    - Break down large tasks into smaller prompts if the AI is struggling.
+    - Example: “First, create the Prisma model for `Project`. Next, write the new Next.js route.”
+
+   ### Work Breakdown Pattern
+
+    **Use Cases**
+
+    - Breaking down feature implementation
+    - Planning database migration steps
+    - Organizing authentication implementation
+    - Planning API integration phases
+    - Breaking down UI component development
+    - Planning testing implementation
+    - Organizing documentation tasks
+    - Planning performance optimization steps
+    - Breaking down security implementation
+    - Planning deployment phases
+
+    ```xml
+    <request>
+      <type>work_breakdown</type>
+      <task_overview>
+        - Main objective
+        - Core requirements
+        - Dependencies
+        - Constraints
+      </task_overview>
+      <breakdown_structure>
+        - Task components
+        - Priority order
+        - Dependencies
+        - Time estimates
+      </breakdown_structure>
+      <implementation_steps>
+        - Step sequence
+        - Technical requirements
+        - Resource needs
+        - Validation points
+      </implementation_steps>
+      <deliverables>
+        - Component list
+        - Implementation order
+        - Success criteria
+        - Testing requirements
+      </deliverables>
+    </request>
+    ```
+
+4. **Validate AI Output**
+    - Always **test** and **review**. AI can produce incorrect or outdated patterns.
+    - Example: “Cursor, is this code using the latest Next.js 14 syntax? Please confirm or update.”
+5. **Iterate**
+    - If you don’t get what you need the first time, clarify or **re-prompt**.
+    - Example: “Cursor, you misunderstood the requirement. The user should see partial GPT output as it’s being generated. Update the code to stream responses.”
+6. **Stay Updated**
+    - AI may not be fully aware of the **latest releases** or best practices. **Cross-check** with official docs.
+    - Example: “Check the Next.js 14 documentation on `app` directory for any changes in how we define routes.”
+7. **Keep Security in Mind**
+    - If you’re dealing with secrets, private keys, etc., keep them out of public prompts.
+    - Example: “Here’s a sanitized snippet of my environment variables. I won’t share my real keys.”

@@ -1,0 +1,300 @@
+# <guide_title>Tool/Technology Development Guide</guide_title>
+
+## <environment>
+
+### Installation
+
+- Version: <version>X.Y.Z</version>
+- Architecture: <architecture>e.g., ARM64, x64</architecture>
+- Installation Path: <install_path>`path/to/installation`</install_path>
+- Additional Components: <components>List any additional components/tools</components>
+
+### System Configuration
+
+- OS: <os>Operating System and Version</os>
+- Shell: <shell>e.g., PowerShell Core 7+</shell>
+- Environment Variables:
+  <env_vars>
+  - PATH: Description of PATH additions
+  - OTHER_VAR: Description of other environment variables
+  </env_vars>
+</environment>
+
+## <usage>
+
+### Command Line Access
+
+<cli_access>
+Describe primary ways to access the tool:
+
+1. Method One:
+
+   ```powershell
+   command --version
+   ```
+
+2. Method Two:
+
+   ```powershell
+   alternative-command --version
+   ```
+
+</cli_access>
+
+### PowerShell Integration
+
+<powershell_integration>
+Following our coding standards, use PowerShell syntax:
+
+```powershell
+# Example commands
+& command argument
+
+# Additional examples
+& command other-argument
+```
+
+</powershell_integration>
+
+### Environment Setup
+
+<env_setup>
+Describe environment setup steps:
+
+```powershell
+# Setup commands
+command setup-step-1
+
+# Additional setup
+command setup-step-2
+```
+
+</env_setup>
+
+### Package/Dependency Management
+
+<package_management>
+Describe package management:
+
+```powershell
+# Package installation
+command install package-name
+
+# Dependency management
+command update-dependencies
+```
+
+</package_management>
+</usage>
+
+## <best_practices>
+
+### Project Structure
+
+<project_structure>
+
+``` file-structure
+project/
+├── app/                # Next.js App Router directory
+│   ├── (groups)/      # Route groups
+│   ├── api/           # API routes
+│   └── layout.tsx     # Root layout
+├── components/        # React components
+├── lib/              # Utility functions
+├── config/           # Configuration files
+├── public/           # Static assets
+└── README.md         # Documentation
+```
+
+</project_structure>
+
+### Environment Management
+
+<env_management>
+
+1. Best practice one
+2. Best practice two
+3. Configuration recommendations:
+
+   ```config
+   setting1=value1
+   setting2=value2
+   ```
+
+</env_management>
+
+### Architecture-Specific Considerations
+
+<arch_considerations>
+
+1. Architecture-specific note one
+2. Architecture-specific note two
+3. Performance considerations
+</arch_considerations>
+</best_practices>
+
+## <troubleshooting>
+
+### Common Issues
+
+<common_issues>
+
+1. Issue One:
+
+   ```powershell
+   # Diagnostic command
+   command diagnostic-1
+   ```
+
+2. Issue Two:
+
+   ```powershell
+   # Resolution command
+   command fix-issue
+   ```
+
+</common_issues>
+
+### Support Resources
+
+<support_resources>
+
+- [Official Documentation](URL)
+- [Community Forum](URL)
+- [Package Registry](URL)
+</support_resources>
+</troubleshooting>
+
+## <getting_started>
+
+### Creating New Projects
+
+<project_creation>
+
+```powershell
+# Project initialization
+New-Item -ItemType Directory -Path "project-name"
+Set-Location project-name
+
+# Additional setup
+command init
+```
+
+</project_creation>
+
+### Basic Example
+
+<basic_example>
+
+```language
+// Basic example code
+function example() {
+    // Example implementation
+}
+```
+
+</basic_example>
+
+### Complete Tool Example
+
+<tool_example>
+
+```language
+// Complete working example
+// With comments and best practices
+```
+
+### Tool Structure
+
+<tool_structure>
+
+```
+tool-name/                  # Project root
+├── app/                   # Next.js App Router
+│   ├── api/              # API routes
+│   └── page.tsx          # Main page
+├── components/           # Shared components
+├── lib/                 # Utility functions
+├── config/             # Configuration
+└── README.md          # Documentation
+```
+
+</tool_structure>
+
+### Running the Example
+
+<running_example>
+
+1. Setup:
+
+   ```powershell
+   # Setup commands
+   command setup
+   ```
+
+2. Configuration:
+
+   ```powershell
+   # Configuration commands
+   command configure
+   ```
+
+3. Execution:
+
+   ```powershell
+   # Run commands
+   command run
+   ```
+
+</running_example>
+</getting_started>
+
+## <development_tips>
+
+### Best Coding Practices
+
+<coding_practices>
+
+1. Practice One:
+
+   ```language
+   // Example of practice one
+   ```
+
+2. Practice Two:
+
+   ```language
+   // Example of practice two
+   ```
+
+</coding_practices>
+
+### Error Handling
+
+<error_handling>
+
+```language
+// Error handling example
+try {
+    // Operation
+} catch (error) {
+    // Error handling
+}
+```
+
+</error_handling>
+
+### Documentation Standards
+
+<documentation_standards>
+
+```language
+/**
+ * Documentation example
+ * @param {type} name - Description
+ * @returns {type} Description
+ */
+```
+
+</documentation_standards>
+</development_tips>
