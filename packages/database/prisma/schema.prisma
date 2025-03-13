@@ -1,0 +1,241 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// User model linked to Supabase auth
+model User {
+    id         String   @id @default(cuid())
+    supabaseId String   @unique // Links to Supabase Auth user
+    email      String   @unique
+    name       String?
+    avatarUrl  String?
+    role       UserRole @default(USER)
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    // Relations
+    projects      Project[]  @relation("ProjectMembers")
+    ownedProjects Project[]  @relation("ProjectOwner")
+    sessions      Session[]
+    activities    Activity[]
+}
+
+enum UserRole {
+    ADMIN
+    USER
+}
+
+// Project model - container for multiple tasks/components
+model Project {
+    id          String        @id @default(cuid())
+    name        String
+    description String?
+    status      ProjectStatus @default(ACTIVE)
+    ownerId     String
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+
+    // Relations
+    owner      User        @relation("ProjectOwner", fields: [ownerId], references: [id])
+    members    User[]      @relation("ProjectMembers")
+    components Component[]
+    tasks      Task[]
+    activities Activity[]
+    codeFiles  CodeFile[]
+
+    @@index([ownerId])
+}
+
+enum ProjectStatus {
+    ACTIVE
+    ARCHIVED
+    COMPLETED
+}
+
+// Component model - reusable parts of a project
+model Component {
+    id          String   @id @default(cuid())
+    name        String
+    description String?
+    type        String
+    projectId   String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    // Relations
+    project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    codeFiles CodeFile[]
+    tasks     Task[]
+
+    @@index([projectId])
+}
+
+// Task model - work items
+model Task {
+    id                String     @id @default(cuid())
+    title             String
+    description       String?
+    status            TaskStatus @default(TODO)
+    priority          Priority   @default(MEDIUM)
+    projectId         String
+    componentId       String?
+    assignedAgentType AgentType?
+    createdAt         DateTime   @default(now())
+    updatedAt         DateTime   @updatedAt
+
+    // Relations
+    project    Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    component  Component? @relation(fields: [componentId], references: [id])
+    activities Activity[]
+
+    @@index([projectId])
+    @@index([componentId])
+}
+
+enum TaskStatus {
+    TODO
+    IN_PROGRESS
+    REVIEW
+    COMPLETED
+}
+
+enum Priority {
+    LOW
+    MEDIUM
+    HIGH
+    URGENT
+}
+
+// Agent types for specialized tasks
+enum AgentType {
+    PRODUCT_MANAGER
+    SOFTWARE_ARCHITECT
+    FRONTEND_DEVELOPER
+    BACKEND_DEVELOPER
+    DEVOPS_ENGINEER
+    QA_TESTER
+    TECHNICAL_WRITER
+    PROJECT_ORCHESTRATOR
+}
+
+// Code files model
+model CodeFile {
+    id          String   @id @default(cuid())
+    path        String
+    filename    String
+    content     String
+    language    String
+    projectId   String
+    componentId String?
+    storageKey  String? // For larger files stored in Supabase Storage
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    // Relations
+    project   Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    component Component?        @relation(fields: [componentId], references: [id])
+    versions  CodeFileVersion[]
+
+    @@unique([projectId, path, filename])
+    @@index([projectId])
+    @@index([componentId])
+}
+
+// Version history for code files
+model CodeFileVersion {
+    id         String   @id @default(cuid())
+    codeFileId String
+    content    String
+    storageKey String? // For larger files stored in Supabase Storage
+    comment    String?
+    createdAt  DateTime @default(now())
+
+    // Relations
+    codeFile CodeFile @relation(fields: [codeFileId], references: [id], onDelete: Cascade)
+
+    @@index([codeFileId])
+}
+
+// Session model for tracking user sessions
+model Session {
+    id        String   @id @default(cuid())
+    userId    String
+    token     String   @unique
+    expiresAt DateTime
+    createdAt DateTime @default(now())
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+// Activity log for auditing and history
+model Activity {
+    id         String         @id @default(cuid())
+    action     ActivityAction
+    entityType String // The type of entity that was acted upon
+    entityId   String // The ID of the entity that was acted upon
+    details    Json? // Additional details about the activity
+    userId     String
+    projectId  String?
+    taskId     String?
+    createdAt  DateTime       @default(now())
+
+    // Relations
+    user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    task    Task?    @relation(fields: [taskId], references: [id])
+
+    @@index([userId])
+    @@index([projectId])
+    @@index([taskId])
+    @@index([createdAt])
+}
+
+enum ActivityAction {
+    CREATE
+    UPDATE
+    DELETE
+    ASSIGN
+    COMPLETE
+    COMMENT
+    HANDOFF
+    LOGIN
+    LOGOUT
+}
+
+// AI Agent State - persists agent state between sessions
+model AgentState {
+    id        String    @id @default(cuid())
+    agentType AgentType
+    state     Json // Stores the agent's current state
+    projectId String?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    @@unique([agentType, projectId])
+}
+
+// AI Prompt Templates for consistent agent behavior
+model PromptTemplate {
+    id          String     @id @default(cuid())
+    name        String     @unique
+    description String?
+    template    String
+    agentType   AgentType?
+    category    String?
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
+
+    @@index([agentType])
+    @@index([category])
+}

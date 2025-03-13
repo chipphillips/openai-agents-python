@@ -1,176 +1,90 @@
-# OpenAI Agents SDK
+# OpenAI Agents Examples for Construction Industry
 
-The OpenAI Agents SDK is a lightweight yet powerful framework for building multi-agent workflows.
+This repository contains examples of using OpenAI's AI models to create agent-based systems for the construction industry. These examples demonstrate how to build AI assistants that can understand and address construction-specific queries.
 
-<img src="https://cdn.openai.com/API/docs/images/orchestration.png" alt="Image of the Agents Tracing UI" style="max-height: 803px;">
+## Getting Started
 
-### Core concepts:
+### Prerequisites
 
-1. [**Agents**](https://openai.github.io/openai-agents-python/agents): LLMs configured with instructions, tools, guardrails, and handoffs
-2. [**Handoffs**](https://openai.github.io/openai-agents-python/handoffs/): Allow agents to transfer control to other agents for specific tasks
-3. [**Guardrails**](https://openai.github.io/openai-agents-python/guardrails/): Configurable safety checks for input and output validation
-4. [**Tracing**](https://openai.github.io/openai-agents-python/tracing/): Built-in tracking of agent runs, allowing you to view, debug and optimize your workflows
+- Python 3.9 or higher
+- An OpenAI API key
 
-Explore the [examples](examples) directory to see the SDK in action, and read our [documentation](https://openai.github.io/openai-agents-python/) for more details.
+### Installation
 
-Notably, our SDK [is compatible](https://openai.github.io/openai-agents-python/models/) with any model providers that support the OpenAI Chat Completions API format.
-
-## Get started
-
-1. Set up your Python environment
-
-```
-python -m venv env
-source env/bin/activate
-```
-
-2. Install Agents SDK
-
-```
-pip install openai-agents
-```
-
-## Hello world example
-
-```python
-from agents import Agent, Runner
-
-agent = Agent(name="Assistant", instructions="You are a helpful assistant")
-
-result = Runner.run_sync(agent, "Write a haiku about recursion in programming.")
-print(result.final_output)
-
-# Code within the code,
-# Functions calling themselves,
-# Infinite loop's dance.
-```
-
-(_If running this, ensure you set the `OPENAI_API_KEY` environment variable_)
-
-## Handoffs example
-
-```py
-from agents import Agent, Runner
-import asyncio
-
-spanish_agent = Agent(
-    name="Spanish agent",
-    instructions="You only speak Spanish.",
-)
-
-english_agent = Agent(
-    name="English agent",
-    instructions="You only speak English",
-)
-
-triage_agent = Agent(
-    name="Triage agent",
-    instructions="Handoff to the appropriate agent based on the language of the request.",
-    handoffs=[spanish_agent, english_agent],
-)
-
-
-async def main():
-    result = await Runner.run(triage_agent, input="Hola, ¿cómo estás?")
-    print(result.final_output)
-    # ¡Hola! Estoy bien, gracias por preguntar. ¿Y tú, cómo estás?
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
-## Functions example
-
-```python
-import asyncio
-
-from agents import Agent, Runner, function_tool
-
-
-@function_tool
-def get_weather(city: str) -> str:
-    return f"The weather in {city} is sunny."
-
-
-agent = Agent(
-    name="Hello world",
-    instructions="You are a helpful agent.",
-    tools=[get_weather],
-)
-
-
-async def main():
-    result = await Runner.run(agent, input="What's the weather in Tokyo?")
-    print(result.final_output)
-    # The weather in Tokyo is sunny.
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
-## The agent loop
-
-When you call `Runner.run()`, we run a loop until we get a final output.
-
-1. We call the LLM, using the model and settings on the agent, and the message history.
-2. The LLM returns a response, which may include tool calls.
-3. If the response has a final output (see below for the more on this), we return it and end the loop.
-4. If the response has a handoff, we set the agent to the new agent and go back to step 1.
-5. We process the tool calls (if any) and append the tool responses messages. Then we go to step 1.
-
-There is a `max_turns` parameter that you can use to limit the number of times the loop executes.
-
-### Final output
-
-Final output is the last thing the agent produces in the loop.
-
-1.  If you set an `output_type` on the agent, the final output is when the LLM returns something of that type. We use [structured outputs](https://platform.openai.com/docs/guides/structured-outputs) for this.
-2.  If there's no `output_type` (i.e. plain text responses), then the first LLM response without any tool calls or handoffs is considered as the final output.
-
-As a result, the mental model for the agent loop is:
-
-1. If the current agent has an `output_type`, the loop runs until the agent produces structured output matching that type.
-2. If the current agent does not have an `output_type`, the loop runs until the current agent produces a message without any tool calls/handoffs.
-
-## Common agent patterns
-
-The Agents SDK is designed to be highly flexible, allowing you to model a wide range of LLM workflows including deterministic flows, iterative loops, and more. See examples in [`examples/agent_patterns`](examples/agent_patterns).
-
-## Tracing
-
-The Agents SDK automatically traces your agent runs, making it easy to track and debug the behavior of your agents. Tracing is extensible by design, supporting custom spans and a wide variety of external destinations, including [Logfire](https://logfire.pydantic.dev/docs/integrations/llms/openai/#openai-agents), [AgentOps](https://docs.agentops.ai/v1/integrations/agentssdk), and [Braintrust](https://braintrust.dev/docs/guides/traces/integrations#openai-agents-sdk). For more details about how to customize or disable tracing, see [Tracing](http://openai.github.io/openai-agents-python/tracing).
-
-## Development (only needed if you need to edit the SDK/examples)
-
-0. Ensure you have [`uv`](https://docs.astral.sh/uv/) installed.
-
+1. Clone this repository:
 ```bash
-uv --version
+git clone https://github.com/yourusername/openai-construction-agents.git
+cd openai-construction-agents
 ```
 
-1. Install dependencies
-
+2. Install the required dependencies:
 ```bash
-make sync
+pip install requests python-dotenv
 ```
 
-2. (After making changes) lint/test
-
+3. Create a `.env` file in the root directory and add your OpenAI API key:
 ```
-make tests  # run tests
-make mypy   # run typechecker
-make lint   # run linter
+OPENAI_API_KEY=your_api_key_here
 ```
 
-## Acknowledgements
+## Examples
 
-We'd like to acknowledge the excellent work of the open-source community, especially:
+### 1. Simple Agent (`simple_agent.py`)
 
--   [Pydantic](https://docs.pydantic.dev/latest/) (data validation) and [PydanticAI](https://ai.pydantic.dev/) (advanced agent framework)
--   [MkDocs](https://github.com/squidfunk/mkdocs-material)
--   [Griffe](https://github.com/mkdocstrings/griffe)
--   [uv](https://github.com/astral-sh/uv) and [ruff](https://github.com/astral-sh/ruff)
+This example demonstrates a basic agent architecture that uses domain specialization to route construction queries to the appropriate expert agent:
 
-We're committed to continuing to build the Agents SDK as an open source framework so others in the community can expand on our approach.
+- Planning Specialist
+- Materials Specialist
+- Safety Specialist
+
+To run this example:
+```bash
+python simple_agent.py
+```
+
+### 2. Multi-Agent System (`multi_agent.py`)
+
+This example demonstrates a more advanced multi-agent system with explicit handoffs between agents, conversation memory, and specialized construction knowledge domains.
+
+To run this example:
+```bash
+python multi_agent.py
+```
+
+### 3. Hello Agent (`hello_agent.py`)
+
+This is a simple "hello world" example that demonstrates the basic usage of OpenAI's API for a construction-focused assistant.
+
+To run this example:
+```bash
+python hello_agent.py
+```
+
+## Features
+
+- Domain-specific expertise in construction planning, materials, and safety
+- Agent-to-agent handoffs for specialized knowledge
+- Conversation context maintenance
+- Construction industry-focused instruction sets
+
+## Usage Tips
+
+- For best results, be specific in your construction-related queries
+- The agents maintain conversation history, so you can refer to previous questions
+- Type 'exit' to quit any of the example applications
+- In the multi-agent system, type 'reset' to start a new conversation
+
+## Advanced Implementation Notes
+
+These examples implement patterns similar to those in OpenAI's Agents SDK but using the direct OpenAI API. They demonstrate:
+
+1. Agent specialization (different domains of expertise)
+2. Agent orchestration (routing queries to the right specialist)
+3. Agent handoffs (transferring control between agents)
+4. System message customization (construction-specific instructions)
+
+For production use, consider exploring OpenAI's official Agents SDK for more advanced features.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
