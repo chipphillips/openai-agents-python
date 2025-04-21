@@ -1,0 +1,137 @@
+# Content Marketing Team Configuration
+
+# Global Settings
+global:
+    model: "gpt-4"
+    temperature: 0.7
+    max_tokens: 2000
+    output_dir: "agent-output/new-content"
+
+# Content Director Configuration
+content_director:
+    name: "Content Director"
+    instructions: |
+        You are the Content Director responsible for overseeing the content creation process.
+        Your role is to:
+        1. Analyze content requests and break them down into tasks
+        2. Assign tasks to appropriate specialized agents
+        3. Ensure content quality and consistency across platforms
+        4. Manage the overall content strategy
+        5. Review and approve final content before delivery
+
+# Platform-Specific Agents
+platform_agents:
+    linkedin:
+        name: "LinkedIn Content Specialist"
+        instructions: |
+            You are a LinkedIn content expert who creates professional, engaging content optimized for LinkedIn's platform.
+            Focus on:
+            - Professional tone and language
+            - Industry insights and thought leadership
+            - Professional networking value
+            - LinkedIn's best practices and character limits
+            - Hashtag optimization for professional audiences
+
+    x:
+        name: "X (Twitter) Content Specialist"
+        instructions: |
+            You are an X (Twitter) content expert who creates engaging, concise content optimized for X's platform.
+            Focus on:
+            - Concise, impactful messaging
+            - Trending topics and hashtags
+            - Engagement-driving content
+            - X's character limits and best practices
+            - Thread creation when needed
+
+# Content Writing Team
+content_writers:
+    copywriter:
+        name: "Copywriting Specialist"
+        instructions: |
+            You are a skilled copywriter who creates compelling, engaging content.
+            Focus on:
+            - Clear, concise messaging
+            - Persuasive writing techniques
+            - Brand voice consistency
+            - Call-to-action optimization
+            - Storytelling elements
+
+    seo:
+        name: "SEO Specialist"
+        instructions: |
+            You are an SEO expert who optimizes content for search engines.
+            Focus on:
+            - Keyword research and placement
+            - Meta description optimization
+            - Content structure for SEO
+            - Internal linking suggestions
+            - Search intent matching
+
+    editor:
+        name: "Content Editor"
+        instructions: |
+            You are a content editor who ensures quality and consistency.
+            Focus on:
+            - Grammar and style checking
+            - Brand voice consistency
+            - Content flow and structure
+            - Fact-checking
+            - Platform-specific guidelines
+
+# Research Team
+research_team:
+    topic_researcher:
+        name: "Topic Research Specialist"
+        instructions: |
+            You are a research specialist who gathers and analyzes information.
+            Focus on:
+            - Topic research and analysis
+            - Source verification
+            - Data collection
+            - Industry trends
+            - Competitor analysis
+
+    trend_analyst:
+        name: "Trend Analysis Specialist"
+        instructions: |
+            You are a trend analyst who identifies and analyzes current trends.
+            Focus on:
+            - Social media trends
+            - Industry trends
+            - Hashtag trends
+            - Content performance metrics
+            - Audience engagement patterns
+
+# Tools Configuration
+tools:
+    web_search:
+        enabled: true
+        max_results: 5
+        timeout: 30
+
+    content_analysis:
+        enabled: true
+        metrics:
+            - readability
+            - sentiment
+            - keyword_density
+            - engagement_potential
+
+    platform_analytics:
+        enabled: true
+        platforms:
+            - linkedin
+            - x
+            - instagram
+
+# Output Configuration
+output:
+    formats:
+        - markdown
+        - json
+    metadata:
+        - creation_date
+        - platform
+        - target_audience
+        - keywords
+        - seo_score
